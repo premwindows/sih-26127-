@@ -1,81 +1,122 @@
-import { useState } from 'react';
-import { ShieldAlert, Sparkles } from 'lucide-react';
-import CommandBar from './components/CommandBar';
-import WorkspaceGrid from './components/WorkspaceGrid';
-import { initialContext, parseCommand, generateLayout } from './services/centralAI';
-import './App.css';
+import { useState } from 'react'
+import heroImg from './assets/hero.png'
+import reactLogo from './assets/react.svg'
+import viteLogo from './assets/vite.svg'
+import './App.css'
 
 function App() {
-  const [context, setContext] = useState(initialContext);
-  const [layoutJSON, setLayoutJSON] = useState(() => generateLayout('dashboard', initialContext));
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const executeCommandText = (commandText) => {
-    setIsProcessing(true);
-
-    // Simulate AI parsing / backend roundtrip delay for interactive "thinking" feel
-    setTimeout(() => {
-      const { intent, context: nextContext } = parseCommand(commandText, context);
-      const nextLayout = generateLayout(intent, nextContext);
-
-      setContext(nextContext);
-      setLayoutJSON(nextLayout);
-      setIsProcessing(false);
-    }, 600);
-  };
-
-  // Handles interactive callbacks inside workspace components (e.g. clicking a camera node on map zooms into footage)
-  const handleComponentInteraction = (compId, action, payload) => {
-    if (action === 'show_footage') {
-      executeCommandText(`show camera footage for ${payload.plate}`);
-    } else if (action === 'show_route') {
-      executeCommandText(`show yesterday's route for ${payload.plate}`);
-    } else if (action === 'promote_camera' || action === 'zoom_camera' || action === 'inspect_log') {
-      const camId = payload.cameraId || payload.eventId?.split('-')[0] || 'CAM01';
-      executeCommandText(`show camera footage for ${camId}`);
-    }
-  };
+  const [count, setCount] = useState(0)
 
   return (
-    <div className="app-container">
-      {/* Outer Shell Header */}
-      <header className="app-header">
-        <div className="logo-section">
-          <ShieldAlert size={20} className="logo-icon" />
-          <span className="logo-text">SIH-26127 Dynamic Intelligence Shell</span>
+    <>
+      <section id="center">
+        <div className="hero">
+          <img src={heroImg} className="base" width="170" height="179" alt="" />
+          <img src={reactLogo} className="framework" alt="React logo" />
+          <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
-        <div className="header-status">
-          <span className="pulse-dot"></span>
-          <span>SYSTEM STAT: ACTIVE</span>
+        <div>
+          <h1>Get started</h1>
+          <p>
+            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+          </p>
         </div>
-      </header>
+        <button
+          type="button"
+          className="counter"
+          onClick={() => setCount((count) => count + 1)}
+        >
+          Count is {count}
+        </button>
+      </section>
 
-      {/* Main Grid Viewport */}
-      <main className="workspace-canvas scrollbar-custom">
-        {layoutJSON.intent === 'dashboard' && !context.activeEntity && (
-          <div className="welcome-splash-header" style={{ textAlign: 'center', marginBottom: '24px' }}>
-            <div style={{ display: 'inline-block', backgroundColor: 'var(--accent-glow)', padding: '8px 16px', borderRadius: '20px', border: '1px solid var(--accent-border)', marginBottom: '8px' }}>
-              <Sparkles size={14} style={{ display: 'inline', marginRight: '6px', color: 'var(--accent)' }} />
-              <span style={{ fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Central AI Workspace</span>
-            </div>
-            <h1 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '4px' }}>City-Wide ANPR Traffic Analytics Dashboard</h1>
-            <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Use the bottom command bar to target a flagged plate or watch synchronous camera feeds.</p>
-          </div>
-        )}
+      <div className="ticks"></div>
 
-        <WorkspaceGrid
-          components={layoutJSON.components}
-          onComponentInteraction={handleComponentInteraction}
-        />
-      </main>
+      <section id="next-steps">
+        <div id="docs">
+          <svg className="icon" role="presentation" aria-hidden="true">
+            <use href="/icons.svg#documentation-icon"></use>
+          </svg>
+          <h2>Documentation</h2>
+          <p>Your questions, answered</p>
+          <ul>
+            <li>
+              <a href="https://vite.dev/" target="_blank">
+                <img className="logo" src={viteLogo} alt="" />
+                Explore Vite
+              </a>
+            </li>
+            <li>
+              <a href="https://react.dev/" target="_blank">
+                <img className="button-icon" src={reactLogo} alt="" />
+                Learn more
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div id="social">
+          <svg className="icon" role="presentation" aria-hidden="true">
+            <use href="/icons.svg#social-icon"></use>
+          </svg>
+          <h2>Connect with us</h2>
+          <p>Join the Vite community</p>
+          <ul>
+            <li>
+              <a href="https://github.com/vitejs/vite" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#github-icon"></use>
+                </svg>
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a href="https://chat.vite.dev/" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#discord-icon"></use>
+                </svg>
+                Discord
+              </a>
+            </li>
+            <li>
+              <a href="https://x.com/vite_js" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#x-icon"></use>
+                </svg>
+                X.com
+              </a>
+            </li>
+            <li>
+              <a href="https://bsky.app/profile/vite.dev" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#bluesky-icon"></use>
+                </svg>
+                Bluesky
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
 
-      {/* Persistent Bottom Chat Command Bar */}
-      <CommandBar
-        onCommand={executeCommandText}
-        isProcessing={isProcessing}
-      />
-    </div>
-  );
+      <div className="ticks"></div>
+      <section id="spacer"></section>
+    </>
+  )
 }
 
-export default App;
+export default App
