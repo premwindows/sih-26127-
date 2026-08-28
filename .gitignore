@@ -1,39 +1,91 @@
+# =========================
 # Python
+# =========================
 __pycache__/
 *.py[cod]
 *.pyo
-.venv/
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
 venv/
+.venv/
 env/
+ENV/
 
-# Environment / secrets
+# =========================
+# Environment / Secrets
+# =========================
 .env
+.env.*
+!.env.example
 
-# Node / React
+# =========================
+# Node / React / Vite
+# =========================
 node_modules/
-dist/
-.vite/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
 
-# VS Code
-.vscode/
+# =========================
+# AI Models
+# =========================
+models/*
+!models/.gitkeep
 
-# Large datasets
-data/raw/
-data/processed/
+*.pt
+*.pth
+*.onnx
+*.engine
+*.weights
+*.ckpt
+*.safetensors
 
-# Model weights
-models/*.pt
-models/*.pth
-models/*.onnx
-models/*.engine
+# =========================
+# Datasets / Raw Video
+# =========================
+data/raw/*
+!data/raw/.gitkeep
 
+data/processed/*
+!data/processed/.gitkeep
+
+# Large media
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+
+# Images generated during processing
+*.jpg
+*.jpeg
+*.png
+
+# =========================
 # Logs
+# =========================
 *.log
+logs/
 
-# Temporary files
-*.tmp
-*.temp
-
-# OS files
+# =========================
+# OS
+# =========================
 .DS_Store
 Thumbs.db
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Temporary
+# =========================
+*.tmp
+*.temp
+*.swp
